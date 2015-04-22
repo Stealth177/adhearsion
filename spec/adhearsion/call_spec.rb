@@ -686,6 +686,17 @@ module Adhearsion
 
           expect(fut.value).to eq(:hangup)
         end
+
+        it "should unblock after a timeout" do
+          fut = subject.future.wait_for_end 1
+
+          sleep 0.5
+          expect(fut).not_to be_ready
+
+          sleep 0.5
+
+          expect(fut.value).to eq(:timeout)
+        end
       end
     end
 
